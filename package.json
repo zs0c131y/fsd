@@ -2,10 +2,11 @@
   "name": "financehub",
   "version": "1.0.0",
   "description": "FinanceHub - A comprehensive financial management platform",
-  "main": "server.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node api/index.js",
     "dev": "nodemon server.js",
+    "build": "echo 'No build step required'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
