@@ -1,0 +1,288 @@
+/* Additional CSS for FinanceHub */
+
+/* AMOLED Theme Tokens */
+:root {
+  --fh-bg: #000000;
+  --fh-surface: #060606;
+  --fh-surface-alt: #0d0d0d;
+  --fh-surface-hover: #161616;
+  --fh-border: #1f1f1f;
+  --fh-border-accent: #2a2a2a;
+  --fh-text-primary: #e5e7eb;
+  --fh-text-secondary: #9ca3af;
+  --fh-accent: #2563eb;
+  --fh-accent-glow: rgba(37, 99, 235, 0.45);
+  --fh-green: #10b981;
+  --fh-red: #ef4444;
+  --fh-radius: 14px;
+  --fh-transition: 140ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  background: var(--fh-bg) !important;
+  color: var(--fh-text-primary);
+  font-feature-settings: "ss01" on, "cv02" on;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Surface utility classes */
+.surface {
+  background: var(--fh-surface);
+  border: 1px solid var(--fh-border);
+  border-radius: var(--fh-radius);
+}
+.surface-alt {
+  background: var(--fh-surface-alt);
+  border: 1px solid var(--fh-border);
+  border-radius: var(--fh-radius);
+}
+.surface-glow {
+  position: relative;
+}
+.surface-glow:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at 30% 20%,
+    var(--fh-accent-glow),
+    transparent 70%
+  );
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* Elevated card hover */
+.card-hover {
+  transition: var(--fh-transition);
+  background: linear-gradient(145deg, var(--fh-surface-alt), var(--fh-surface));
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6),
+    0 0 0 1px var(--fh-border-accent), 0 0 0 1px inset #0a0a0a;
+}
+.card-hover:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+/* Accent focus ring */
+*:focus-visible {
+  outline: 2px solid var(--fh-accent);
+  outline-offset: 3px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--fh-border),
+    transparent
+  );
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--fh-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 20px;
+  border: 2px solid var(--fh-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a2a;
+}
+
+/* Glowing accent text */
+.accent-text {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtle text */
+.text-subtle {
+  color: var(--fh-text-secondary);
+}
+
+/* Animated skeleton loader */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #121212;
+}
+.skeleton:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 45%,
+    rgba(255, 255, 255, 0.06) 55%,
+    transparent 100%
+  );
+  animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Glassy badge */
+.badge {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--fh-border);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Chart dark adjustments */
+.chart-container canvas {
+  background: transparent !important;
+}
+
+/* Utility to clamp gradient text inside headings */
+.heading-glow {
+  position: relative;
+}
+.heading-glow:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 42px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--fh-accent), transparent);
+  border-radius: 3px;
+}
+
+/* Line clamp utility for text truncation */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2; /* Standard */
+  -webkit-line-clamp: 2; /* Vendor */
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 3; /* Standard */
+  -webkit-line-clamp: 3; /* Vendor */
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: var(--fh-transition);
+}
+
+/* Custom focus styles for accessibility */
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Improved table styling */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Chart container improvements */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+/* News card image overlay */
+.news-image-overlay {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+/* Loading animation improvements */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Responsive grid improvements */
+@media (max-width: 640px) {
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .surface,
+  .surface-alt,
+  .bg-gray-800,
+  .bg-gray-900 {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+  }
+}

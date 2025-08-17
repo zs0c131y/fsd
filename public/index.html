@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinanceHub - Professional Financial Dashboard</title>
+    <!-- Tailwind CDN (runtime build) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      /* Dark theme configuration for Tailwind */
+      .dark {
+        --tw-bg-opacity: 1;
+        background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+      }
+
+      /* Custom scrollbar for dark theme */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #1f2937;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #4b5563;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #6b7280;
+      }
+
+      /* Gradient background */
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          #1e293b 0%,
+          #0f172a 50%,
+          #1e293b 100%
+        );
+      }
+
+      /* Glowing effect */
+      .glow-effect {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      }
+
+      /* Card hover animation */
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Loading animation */
+      .loading-dots {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+
+      .loading-dots div {
+        position: absolute;
+        top: 33px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #3b82f6;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+      }
+
+      .loading-dots div:nth-child(1) {
+        left: 8px;
+        animation: loading1 0.6s infinite;
+      }
+
+      .loading-dots div:nth-child(2) {
+        left: 8px;
+        animation: loading2 0.6s infinite;
+      }
+
+      .loading-dots div:nth-child(3) {
+        left: 32px;
+        animation: loading2 0.6s infinite;
+      }
+
+      .loading-dots div:nth-child(4) {
+        left: 56px;
+        animation: loading3 0.6s infinite;
+      }
+
+      @keyframes loading1 {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes loading3 {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(0);
+        }
+      }
+
+      @keyframes loading2 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(24px, 0);
+        }
+      }
+
+      /* Mobile menu animation */
+      .mobile-menu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+      }
+
+      .mobile-menu.active {
+        max-height: 400px;
+      }
+    </style>
+  </head>
+  <body class="bg-black text-gray-200 min-h-screen">
+    <!-- Navigation -->
+    <nav
+      class="sticky top-0 z-50 backdrop-blur bg-black/75 border-b border-gray-800"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <!-- Logo -->
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow shadow-blue-800/40"
+            >
+              <i class="fas fa-chart-line text-white text-lg"></i>
+            </div>
+            <div>
+              <span
+                class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                >FinanceHub</span
+              >
+              <div class="text-xs text-gray-400">Professional Dashboard</div>
+            </div>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              href="#dashboard"
+              class="nav-link flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors"
+            >
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Dashboard</span>
+            </a>
+            <a
+              href="#portfolio"
+              class="nav-link flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors"
+            >
+              <i class="fas fa-briefcase"></i>
+              <span>Portfolio</span>
+            </a>
+            <a
+              href="#market"
+              class="nav-link flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors"
+            >
+              <i class="fas fa-chart-bar"></i>
+              <span>Markets</span>
+            </a>
+            <a
+              href="#news"
+              class="nav-link flex items-center space-x-2 text-gray-400 hover:text-blue-400 transition-colors"
+            >
+              <i class="fas fa-newspaper"></i>
+              <span>News</span>
+            </a>
+            <button
+              id="refreshBtn"
+              class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 shadow shadow-blue-700/30"
+            >
+              <i class="fas fa-sync-alt"></i>
+              <span>Refresh</span>
+            </button>
+          </div>
+
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button
+              id="mobileMenuBtn"
+              class="text-gray-300 hover:text-white focus:outline-none"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div
+          id="mobileMenu"
+          class="mobile-menu md:hidden bg-gray-800 border-t border-gray-700"
+        >
+          <div class="px-2 pt-2 pb-3 space-y-1">
+            <a
+              href="#dashboard"
+              class="mobile-nav-link block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700 rounded-md"
+            >
+              <i class="fas fa-tachometer-alt mr-3"></i>Dashboard
+            </a>
+            <a
+              href="#portfolio"
+              class="mobile-nav-link block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700 rounded-md"
+            >
+              <i class="fas fa-briefcase mr-3"></i>Portfolio
+            </a>
+            <a
+              href="#market"
+              class="mobile-nav-link block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700 rounded-md"
+            >
+              <i class="fas fa-chart-bar mr-3"></i>Markets
+            </a>
+            <a
+              href="#news"
+              class="mobile-nav-link block px-3 py-2 text-gray-300 hover:text-blue-400 hover:bg-gray-700 rounded-md"
+            >
+              <i class="fas fa-newspaper mr-3"></i>News
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="section-content">
+        <!-- Welcome Header -->
+        <div class="mb-8">
+          <h1
+            class="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+          >
+            Welcome to FinanceHub
+          </h1>
+          <p class="text-subtle text-lg">
+            Professional financial dashboard for smart investment decisions
+          </p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div
+            class="bg-gray-800 rounded-xl p-6 card-hover border border-gray-700"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-subtle text-sm">Portfolio Value</p>
+                <p
+                  id="portfolioValue"
+                  class="text-2xl font-bold text-green-400"
+                >
+                  ₹28,47,500
+                </p>
+                <p class="text-green-400 text-sm">+₹28,475 (1.01%)</p>
+              </div>
+              <div
+                class="w-12 h-12 bg-green-500 bg-opacity-20 rounded-lg flex items-center justify-center"
+              >
+                <i class="fas fa-wallet text-green-400 text-xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gray-800 rounded-xl p-6 card-hover border border-gray-700"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-subtle text-sm">Total Returns</p>
+                <p id="totalReturns" class="text-2xl font-bold text-blue-400">
+                  ₹3,47,500
+                </p>
+                <p class="text-blue-400 text-sm">13.9% gain</p>
+              </div>
+              <div
+                class="w-12 h-12 bg-blue-500 bg-opacity-20 rounded-lg flex items-center justify-center"
+              >
+                <i class="fas fa-chart-line text-blue-400 text-xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gray-800 rounded-xl p-6 card-hover border border-gray-700"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-subtle text-sm">Active Holdings</p>
+                <p
+                  id="activeHoldings"
+                  class="text-2xl font-bold text-purple-400"
+                >
+                  8
+                </p>
+                <p class="text-purple-400 text-sm">Diversified</p>
+              </div>
+              <div
+                class="w-12 h-12 bg-purple-500 bg-opacity-20 rounded-lg flex items-center justify-center"
+              >
+                <i class="fas fa-briefcase text-purple-400 text-xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gray-800 rounded-xl p-6 card-hover border border-gray-700"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-subtle text-sm">NIFTY 50</p>
+                <p id="niftyValue" class="text-2xl font-bold text-yellow-400">
+                  21,654.75
+                </p>
+                <p class="text-green-400 text-sm">+258.30 (1.2%)</p>
+              </div>
+              <div
+                class="w-12 h-12 bg-yellow-500 bg-opacity-20 rounded-lg flex items-center justify-center"
+              >
+                <i class="fas fa-chart-area text-yellow-400 text-xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portfolio Chart -->
+        <div class="surface p-6 mb-8 rounded-xl">
+          <h3 class="text-xl font-semibold mb-4 text-gray-100">
+            Portfolio Performance
+          </h3>
+          <div class="h-64">
+            <canvas id="portfolioChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Portfolio Section -->
+      <section id="portfolio" class="section-content hidden">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4 text-gray-100">
+            Portfolio Overview
+          </h2>
+          <p class="text-subtle">Detailed view of your investment portfolio</p>
+        </div>
+
+        <!-- Portfolio Summary -->
+        <div class="surface p-6 mb-8 rounded-xl">
+          <h3 class="text-xl font-semibold mb-6 text-gray-100">Holdings</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-gray-700">
+                  <th class="text-left py-3 px-4 text-subtle">Symbol</th>
+                  <th class="text-left py-3 px-4 text-subtle">Company</th>
+                  <th class="text-right py-3 px-4 text-subtle">Qty</th>
+                  <th class="text-right py-3 px-4 text-subtle">
+                    Current Price
+                  </th>
+                  <th class="text-right py-3 px-4 text-subtle">
+                    Current Value
+                  </th>
+                  <th class="text-right py-3 px-4 text-subtle">Returns</th>
+                </tr>
+              </thead>
+              <tbody id="holdingsTable">
+                <!-- Holdings will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sector Allocation -->
+        <div class="surface p-6 mb-8 rounded-xl">
+          <h3 class="text-xl font-semibold mb-4 text-gray-100">
+            Sector Allocation
+          </h3>
+          <div class="h-64">
+            <canvas id="sectorChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Market Section -->
+      <section id="market" class="section-content hidden">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4 text-gray-100">
+            Live Market Data
+          </h2>
+          <p class="text-subtle">
+            Real-time stock prices and market information
+          </p>
+        </div>
+
+        <!-- Market Summary Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div class="surface-alt rounded-xl p-4 border border-gray-800/60">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm">Market Cap</p>
+                <p class="text-xl font-bold text-gray-100" id="totalMarketCap">
+                  ₹2,847.5T
+                </p>
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center"
+              >
+                <i class="fas fa-chart-pie text-blue-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="surface-alt rounded-xl p-4 border border-gray-800/60">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm">Gainers</p>
+                <p class="text-xl font-bold text-green-400" id="gainersCount">
+                  0
+                </p>
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-green-600/20 flex items-center justify-center"
+              >
+                <i class="fas fa-arrow-up text-green-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="surface-alt rounded-xl p-4 border border-gray-800/60">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm">Losers</p>
+                <p class="text-xl font-bold text-red-400" id="losersCount">0</p>
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-red-600/20 flex items-center justify-center"
+              >
+                <i class="fas fa-arrow-down text-red-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="surface-alt rounded-xl p-4 border border-gray-800/60">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-gray-400 text-sm">Last Updated</p>
+                <p class="text-sm font-medium text-gray-100" id="lastUpdated">
+                  --
+                </p>
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center"
+              >
+                <i class="fas fa-clock text-purple-400"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Market Indices - Horizontal Layout -->
+        <div class="surface p-6 mb-8 rounded-xl">
+          <h3
+            class="text-xl font-semibold mb-6 text-gray-100 flex items-center"
+          >
+            <i class="fas fa-chart-line mr-3 text-blue-400"></i>
+            Market Indices
+          </h3>
+          <div
+            class="grid grid-cols-1 md:grid-cols-3 gap-6"
+            id="indicesContainer"
+          >
+            <!-- Indices will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          <!-- Left Column - Top Stocks (Takes 2/3 width on large screens) -->
+          <div class="xl:col-span-2">
+            <div class="surface p-6 rounded-xl">
+              <h3
+                class="text-xl font-semibold mb-6 text-gray-100 flex items-center"
+              >
+                <i class="fas fa-star mr-3 text-yellow-400"></i>
+                Top Performing Stocks
+              </h3>
+              <div
+                class="grid grid-cols-1 lg:grid-cols-2 gap-4"
+                id="stocksContainer"
+              >
+                <!-- Stocks will be loaded here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column - Commodities & Currencies -->
+          <div class="xl:col-span-1 space-y-6">
+            <div class="surface p-6 rounded-xl">
+              <h3
+                class="text-xl font-semibold mb-4 text-gray-100 flex items-center"
+              >
+                <i class="fas fa-coins mr-3 text-amber-400"></i>
+                Commodities
+              </h3>
+              <div id="commoditiesContainer">
+                <!-- Commodities will be loaded here -->
+              </div>
+            </div>
+
+            <div class="surface p-6 rounded-xl">
+              <h3
+                class="text-xl font-semibold mb-4 text-gray-100 flex items-center"
+              >
+                <i class="fas fa-exchange-alt mr-3 text-emerald-400"></i>
+                Currency Rates
+              </h3>
+              <div id="currenciesContainer">
+                <!-- Currencies will be loaded here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- News Section -->
+      <section id="news" class="section-content hidden">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4 text-gray-100">Financial News</h2>
+          <p class="text-subtle">Latest financial news and market insights</p>
+        </div>
+
+        <!-- News Categories -->
+        <div class="mb-6">
+          <div class="flex flex-wrap gap-2" id="newsCategories">
+            <!-- Categories will be loaded here -->
+          </div>
+        </div>
+
+        <!-- News Articles -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          id="newsContainer"
+        >
+          <!-- News articles will be loaded here -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Loading Modal -->
+    <div
+      id="loadingModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden"
+    >
+      <div class="bg-gray-800 rounded-xl p-8 text-center">
+        <div class="loading-dots mb-4">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <p class="text-gray-300">Loading financial data...</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-16 bg-black/60 backdrop-blur">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <div class="flex items-center space-x-3 mb-4">
+              <div
+                class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center"
+              >
+                <i class="fas fa-chart-line text-white"></i>
+              </div>
+              <span
+                class="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                >FinanceHub</span
+              >
+            </div>
+            <p class="text-subtle">
+              Professional financial dashboard for smart investment decisions
+            </p>
+          </div>
+
+          <div>
+            <h4 class="text-gray-100 font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2 text-subtle">
+              <li>
+                <a
+                  href="#dashboard"
+                  class="hover:text-blue-400 transition-colors"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#portfolio"
+                  class="hover:text-blue-400 transition-colors"
+                  >Portfolio</a
+                >
+              </li>
+              <li>
+                <a href="#market" class="hover:text-blue-400 transition-colors"
+                  >Markets</a
+                >
+              </li>
+              <li>
+                <a href="#news" class="hover:text-blue-400 transition-colors"
+                  >News</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-gray-100 font-semibold mb-4">Contact</h4>
+            <div class="space-y-2 text-gray-400">
+              <p><i class="fas fa-envelope mr-2"></i>info@financehub.com</p>
+              <p><i class="fas fa-phone mr-2"></i>+91-9876543210</p>
+              <p><i class="fas fa-map-marker-alt mr-2"></i>Mumbai, India</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400"
+        >
+          <p>&copy; 2025 FinanceHub. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
