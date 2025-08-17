@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Storage Playground</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #0f172a;
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        min-height: 100vh;
+      }
+
+      /* Header Styles */
+      header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #e2e8f0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        padding: 1rem 0;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      }
+
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #059669;
+      }
+
+      /* Navigation Styles */
+      nav ul {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #64748b;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        transition: all 0.2s ease;
+      }
+
+      nav a:hover {
+        color: #059669;
+        background: #dcfce7;
+      }
+
+      nav a.active {
+        color: #059669;
+        background: #dcfce7;
+      }
+
+      /* Main Content */
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        padding: 4rem 0;
+        margin-bottom: 3rem;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(to right, #059669, #10b981);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        color: #64748b;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* Section Styles */
+      section {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        border: 1px solid #e2e8f0;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px 0 rgb(0 0 0 / 0.1);
+      }
+
+      section h2 {
+        color: #059669;
+        margin-bottom: 1rem;
+        font-size: 1.75rem;
+        font-weight: 700;
+      }
+
+      /* Storage Demo Containers */
+      .storage-demo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .storage-container {
+        background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+        border: 2px solid #059669;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .storage-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 10px,
+          rgba(5, 150, 105, 0.05) 10px,
+          rgba(5, 150, 105, 0.05) 20px
+        );
+        pointer-events: none;
+      }
+
+      .storage-container h3 {
+        color: #065f46;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+      }
+
+      .storage-form {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.375rem;
+        background: white;
+        color: #374151;
+        transition: border-color 0.2s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #059669;
+        box-shadow: 0 0 0 3px rgb(5 150 105 / 0.1);
+      }
+
+      .form-group textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+
+      /* Button Styles */
+      .btn-group {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 1rem 0;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: #059669;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #047857;
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #374151;
+        border: 1px solid #d1d5db;
+      }
+
+      .btn-secondary:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+      }
+
+      .btn-danger {
+        background: #dc2626;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #b91c1c;
+      }
+
+      /* Storage Display */
+      .storage-display {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+        font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+        font-size: 0.875rem;
+        max-height: 300px;
+        overflow-y: auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .storage-display .empty {
+        color: #64748b;
+        font-style: italic;
+      }
+
+      .storage-item {
+        background: #334155;
+        margin: 0.5rem 0;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        border-left: 3px solid #059669;
+      }
+
+      .storage-item .key {
+        color: #38bdf8;
+        font-weight: bold;
+      }
+
+      .storage-item .value {
+        color: #fbbf24;
+        margin-top: 0.25rem;
+        word-break: break-all;
+      }
+
+      .storage-item .actions {
+        margin-top: 0.5rem;
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .storage-item .actions button {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        border: 1px solid #475569;
+        background: transparent;
+        color: #e2e8f0;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .storage-item .actions button:hover {
+        background: #475569;
+      }
+
+      /* Comparison Table */
+      .comparison-table {
+        background: white;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        margin: 2rem 0;
+      }
+
+      .comparison-table table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .comparison-table th {
+        background: #f8fafc;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .comparison-table tbody tr:hover {
+        background: #f8fafc;
+      }
+
+      /* Code Examples */
+      .code-example {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+      }
+
+      .code-example h4 {
+        color: #374151;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .code-example pre {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+        font-size: 0.875rem;
+      }
+
+      .code-example .keyword {
+        color: #c084fc;
+      }
+
+      .code-example .string {
+        color: #34d399;
+      }
+
+      .code-example .method {
+        color: #60a5fa;
+      }
+
+      /* Interactive Examples */
+      .interactive-examples {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .example-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        transition: transform 0.2s ease;
+      }
+
+      .example-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px 0 rgb(0 0 0 / 0.1);
+      }
+
+      .example-card h4 {
+        color: #374151;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      /* Status Indicators */
+      .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .status-success {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .status-error {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .status-info {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+
+      /* Footer */
+      footer {
+        background: #0f172a;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 2rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      footer p {
+        color: #94a3b8;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          gap: 1rem;
+          padding: 0 1rem;
+        }
+
+        nav ul {
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 1rem;
+        }
+
+        main {
+          padding: 1rem;
+        }
+
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .storage-demo {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        section {
+          padding: 1.5rem;
+        }
+
+        .btn-group {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-content">
+        <div class="logo">StorageMaster</div>
+        <nav>
+          <ul>
+            <li><a href="page1.html">Semantic HTML</a></li>
+            <li><a href="page2.html">Flexbox</a></li>
+            <li><a href="../../geolocation-app/index.html">Geolocation</a></li>
+            <li><a href="#" class="active">Storage</a></li>
+            <li><a href="page4.html">Tailwind</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="hero">
+        <h1>Web Storage Playground</h1>
+        <p>
+          Explore the power of client-side storage with localStorage and
+          sessionStorage. Learn how to persist data in the browser and create
+          better user experiences!
+        </p>
+      </div>
+
+      <section id="introduction">
+        <h2>Understanding Web Storage</h2>
+        <p>
+          Web storage is like having different types of containers for your
+          data.
+          <strong>localStorage</strong> is like a treasure chest that keeps your
+          valuables safe even when you leave and come back later, while
+          <strong>sessionStorage</strong> is like a temporary workspace that
+          gets cleaned up when you close the door.
+        </p>
+
+        <div class="comparison-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>localStorage</th>
+                <th>sessionStorage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Persistence</strong></td>
+                <td>Survives browser restarts</td>
+                <td>Cleared when tab closes</td>
+              </tr>
+              <tr>
+                <td><strong>Scope</strong></td>
+                <td>Shared across all tabs</td>
+                <td>Isolated to single tab</td>
+              </tr>
+              <tr>
+                <td><strong>Storage Limit</strong></td>
+                <td>~5-10MB per origin</td>
+                <td>~5-10MB per origin</td>
+              </tr>
+              <tr>
+                <td><strong>Use Cases</strong></td>
+                <td>User preferences, shopping cart</td>
+                <td>Form data, temporary state</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="interactive-demo">
+        <h2>🎮 Interactive Storage Demo</h2>
+        <p>
+          Try adding, viewing, and removing data from both storage types. Notice
+          how localStorage persists even when you refresh the page!
+        </p>
+
+        <div class="storage-demo">
+          <!-- localStorage Demo -->
+          <div class="storage-container">
+            <h3>🗃️ localStorage Demo</h3>
+            <div class="storage-form">
+              <div class="form-group">
+                <label for="local-key">Key:</label>
+                <input
+                  type="text"
+                  id="local-key"
+                  placeholder="e.g., username"
+                />
+              </div>
+              <div class="form-group">
+                <label for="local-value">Value:</label>
+                <textarea
+                  id="local-value"
+                  placeholder="Enter some data..."
+                ></textarea>
+              </div>
+              <div class="btn-group">
+                <button class="btn btn-primary" onclick="addToLocalStorage()">
+                  💾 Store Data
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="refreshLocalStorage()"
+                >
+                  🔄 Refresh
+                </button>
+                <button class="btn btn-danger" onclick="clearLocalStorage()">
+                  🗑️ Clear All
+                </button>
+              </div>
+            </div>
+            <div class="storage-display" id="local-storage-display">
+              <div class="empty">No data stored yet...</div>
+            </div>
+          </div>
+
+          <!-- sessionStorage Demo -->
+          <div class="storage-container">
+            <h3>📋 sessionStorage Demo</h3>
+            <div class="storage-form">
+              <div class="form-group">
+                <label for="session-key">Key:</label>
+                <input
+                  type="text"
+                  id="session-key"
+                  placeholder="e.g., formData"
+                />
+              </div>
+              <div class="form-group">
+                <label for="session-value">Value:</label>
+                <textarea
+                  id="session-value"
+                  placeholder="Enter temporary data..."
+                ></textarea>
+              </div>
+              <div class="btn-group">
+                <button class="btn btn-primary" onclick="addToSessionStorage()">
+                  📝 Store Data
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  onclick="refreshSessionStorage()"
+                >
+                  🔄 Refresh
+                </button>
+                <button class="btn btn-danger" onclick="clearSessionStorage()">
+                  🗑️ Clear All
+                </button>
+              </div>
+            </div>
+            <div class="storage-display" id="session-storage-display">
+              <div class="empty">No data stored yet...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="code-examples">
+        <h2>💻 Code Examples</h2>
+        <p>
+          Here are practical examples of how to work with web storage in your
+          JavaScript applications:
+        </p>
+
+        <div class="code-example">
+          <h4>Basic Storage Operations</h4>
+          <pre><code><span class="keyword">// localStorage - persists until manually cleared</span>
+<span class="method">localStorage.setItem</span>(<span class="string">'username'</span>, <span class="string">'john_doe'</span>);
+<span class="keyword">const</span> username = <span class="method">localStorage.getItem</span>(<span class="string">'username'</span>);
+<span class="method">localStorage.removeItem</span>(<span class="string">'username'</span>);
+<span class="method">localStorage.clear</span>(); <span class="keyword">// Remove all items</span>
+
+<span class="keyword">// sessionStorage - cleared when tab closes</span>
+<span class="method">sessionStorage.setItem</span>(<span class="string">'tempData'</span>, <span class="string">'temporary value'</span>);
+<span class="keyword">const</span> tempData = <span class="method">sessionStorage.getItem</span>(<span class="string">'tempData'</span>);
+<span class="method">sessionStorage.removeItem</span>(<span class="string">'tempData'</span>);
+<span class="method">sessionStorage.clear</span>(); <span class="keyword">// Remove all items</span></code></pre>
+        </div>
+
+        <div class="code-example">
+          <h4>Working with Objects and Arrays</h4>
+          <pre><code><span class="keyword">// Storing complex data (must be stringified)</span>
+<span class="keyword">const</span> user = { name: <span class="string">'Alice'</span>, age: <span class="string">30</span>, preferences: [<span class="string">'dark mode'</span>, <span class="string">'notifications'</span>] };
+<span class="method">localStorage.setItem</span>(<span class="string">'user'</span>, <span class="method">JSON.stringify</span>(user));
+
+<span class="keyword">// Retrieving and parsing complex data</span>
+<span class="keyword">const</span> storedUser = <span class="method">JSON.parse</span>(<span class="method">localStorage.getItem</span>(<span class="string">'user'</span>));
+<span class="method">console.log</span>(storedUser.name); <span class="keyword">// 'Alice'</span>
+
+<span class="keyword">// Safe parsing with error handling</span>
+<span class="keyword">function</span> getStoredObject(key) {
+  <span class="keyword">try</span> {
+    <span class="keyword">return</span> <span class="method">JSON.parse</span>(<span class="method">localStorage.getItem</span>(key));
+  } <span class="keyword">catch</span> (error) {
+    <span class="method">console.error</span>(<span class="string">'Error parsing stored data:'</span>, error);
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+  }
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="interactive-examples">
+        <h2>🚀 Real-World Examples</h2>
+        <p>
+          Explore practical applications of web storage that you might use in
+          real projects:
+        </p>
+
+        <div class="interactive-examples">
+          <div class="example-card">
+            <h4>🎨 Theme Preference</h4>
+            <p>Save user's preferred theme across sessions</p>
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="setTheme('light')">
+                ☀️ Light
+              </button>
+              <button class="btn btn-primary" onclick="setTheme('dark')">
+                🌙 Dark
+              </button>
+              <button class="btn btn-primary" onclick="setTheme('auto')">
+                🔄 Auto
+              </button>
+            </div>
+            <p id="current-theme" class="status-indicator status-info">
+              Current: Auto
+            </p>
+          </div>
+
+          <div class="example-card">
+            <h4>🛒 Shopping Cart</h4>
+            <p>Persistent shopping cart using localStorage</p>
+            <div class="btn-group">
+              <button
+                class="btn btn-primary"
+                onclick="addToCart('Laptop', 999)"
+              >
+                💻 Add Laptop
+              </button>
+              <button class="btn btn-primary" onclick="addToCart('Mouse', 25)">
+                🖱️ Add Mouse
+              </button>
+              <button class="btn btn-secondary" onclick="viewCart()">
+                👀 View Cart
+              </button>
+              <button class="btn btn-danger" onclick="clearCart()">
+                🗑️ Clear Cart
+              </button>
+            </div>
+            <div id="cart-status" class="status-indicator status-info">
+              Cart: 0 items
+            </div>
+          </div>
+
+          <div class="example-card">
+            <h4>📝 Form Auto-Save</h4>
+            <p>Automatically save form data as user types</p>
+            <input
+              type="text"
+              id="auto-save-input"
+              placeholder="Start typing..."
+              oninput="autoSaveForm()"
+              style="
+                width: 100%;
+                padding: 0.5rem;
+                margin: 1rem 0;
+                border: 1px solid #d1d5db;
+                border-radius: 0.375rem;
+              "
+            />
+            <div id="auto-save-status" class="status-indicator status-info">
+              Auto-save ready
+            </div>
+          </div>
+
+          <div class="example-card">
+            <h4>📊 Usage Analytics</h4>
+            <p>Track user actions in current session</p>
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="trackAction('click')">
+                📱 Track Click
+              </button>
+              <button class="btn btn-primary" onclick="trackAction('scroll')">
+                📜 Track Scroll
+              </button>
+              <button class="btn btn-secondary" onclick="viewAnalytics()">
+                📈 View Data
+              </button>
+              <button class="btn btn-danger" onclick="clearAnalytics()">
+                🗑️ Clear Session
+              </button>
+            </div>
+            <div id="analytics-status" class="status-indicator status-info">
+              Session: 0 actions
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="best-practices">
+        <h2>✨ Best Practices & Tips</h2>
+        <p>
+          Follow these guidelines to use web storage effectively and avoid
+          common pitfalls:
+        </p>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+          "
+        >
+          <div
+            style="
+              background: #f0f9ff;
+              padding: 1.5rem;
+              border-radius: 0.75rem;
+              border: 1px solid #bae6fd;
+            "
+          >
+            <h4 style="color: #0369a1; margin-bottom: 1rem">🔒 Security</h4>
+            <ul style="color: #374151; line-height: 1.8">
+              <li>Never store sensitive data (passwords, tokens)</li>
+              <li>Always validate data retrieved from storage</li>
+              <li>Use HTTPS to prevent storage manipulation</li>
+              <li>Be aware that storage is accessible via DevTools</li>
+            </ul>
+          </div>
+
+          <div
+            style="
+              background: #fefce8;
+              padding: 1.5rem;
+              border-radius: 0.75rem;
+              border: 1px solid #fde047;
+            "
+          >
+            <h4 style="color: #a16207; margin-bottom: 1rem">⚡ Performance</h4>
+            <ul style="color: #374151; line-height: 1.8">
+              <li>Storage operations are synchronous - avoid in loops</li>
+              <li>Compress large data before storing</li>
+              <li>Use storage events to sync across tabs</li>
+              <li>Implement cleanup strategies for old data</li>
+            </ul>
+          </div>
+
+          <div
+            style="
+              background: #f0fdf4;
+              padding: 1.5rem;
+              border-radius: 0.75rem;
+              border: 1px solid #bbf7d0;
+            "
+          >
+            <h4 style="color: #166534; margin-bottom: 1rem">
+              🛠️ Implementation
+            </h4>
+            <ul style="color: #374151; line-height: 1.8">
+              <li>Always wrap storage calls in try-catch blocks</li>
+              <li>Check for storage availability before using</li>
+              <li>Use meaningful key naming conventions</li>
+              <li>Implement fallbacks for unsupported browsers</li>
+            </ul>
+          </div>
+
+          <div
+            style="
+              background: #fdf2f8;
+              padding: 1.5rem;
+              border-radius: 0.75rem;
+              border: 1px solid #fbcfe8;
+            "
+          >
+            <h4 style="color: #be185d; margin-bottom: 1rem">🎯 Use Cases</h4>
+            <ul style="color: #374151; line-height: 1.8">
+              <li>localStorage: User preferences, settings, cart data</li>
+              <li>sessionStorage: Form drafts, temporary filters</li>
+              <li>Consider IndexedDB for large datasets</li>
+              <li>Use cookies for server-side accessible data</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="code-example">
+          <h4>Storage Availability Check</h4>
+          <pre><code><span class="keyword">function</span> storageAvailable(type) {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> storage = window[type];
+    <span class="keyword">const</span> test = <span class="string">'__storage_test__'</span>;
+    storage.<span class="method">setItem</span>(test, test);
+    storage.<span class="method">removeItem</span>(test);
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+  } <span class="keyword">catch</span> (e) {
+    <span class="keyword">return</span> <span class="keyword">false</span>;
+  }
+}
+
+<span class="keyword">// Usage</span>
+<span class="keyword">if</span> (<span class="method">storageAvailable</span>(<span class="string">'localStorage'</span>)) {
+  <span class="keyword">// localStorage is available</span>
+  <span class="method">localStorage.setItem</span>(<span class="string">'key'</span>, <span class="string">'value'</span>);
+} <span class="keyword">else</span> {
+  <span class="keyword">// Fallback to alternative storage or alert user</span>
+  <span class="method">console.warn</span>(<span class="string">'localStorage not available'</span>);
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <p>
+          &copy; 2025 StorageMaster Demo. Mastering client-side data
+          persistence.
+        </p>
+        <p>Built with modern web storage techniques and best practices.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", function () {
+        refreshLocalStorage();
+        refreshSessionStorage();
+        loadThemePreference();
+        loadCartStatus();
+        loadAutoSaveData();
+        loadAnalyticsStatus();
+      });
+
+      // localStorage functions
+      function addToLocalStorage() {
+        const key = document.getElementById("local-key").value.trim();
+        const value = document.getElementById("local-value").value.trim();
+
+        if (!key || !value) {
+          alert("Please enter both key and value");
+          return;
+        }
+
+        try {
+          localStorage.setItem(key, value);
+          document.getElementById("local-key").value = "";
+          document.getElementById("local-value").value = "";
+          refreshLocalStorage();
+          showStatus("success", "Data stored in localStorage!");
+        } catch (error) {
+          showStatus("error", "Error storing data: " + error.message);
+        }
+      }
+
+      function refreshLocalStorage() {
+        const display = document.getElementById("local-storage-display");
+        const items = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          const value = localStorage.getItem(key);
+          items.push({ key, value });
+        }
+
+        if (items.length === 0) {
+          display.innerHTML = '<div class="empty">No data stored yet...</div>';
+        } else {
+          display.innerHTML = items
+            .map(
+              (item) => `
+            <div class="storage-item">
+              <div class="key">${escapeHtml(item.key)}</div>
+              <div class="value">${escapeHtml(item.value)}</div>
+              <div class="actions">
+                <button onclick="editLocalItem('${escapeHtml(
+                  item.key
+                )}')">Edit</button>
+                <button onclick="removeLocalItem('${escapeHtml(
+                  item.key
+                )}')">Delete</button>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        }
+      }
+
+      function clearLocalStorage() {
+        if (confirm("Are you sure you want to clear all localStorage data?")) {
+          localStorage.clear();
+          refreshLocalStorage();
+          showStatus("success", "localStorage cleared!");
+        }
+      }
+
+      function removeLocalItem(key) {
+        localStorage.removeItem(key);
+        refreshLocalStorage();
+        showStatus("success", `Removed "${key}" from localStorage`);
+      }
+
+      function editLocalItem(key) {
+        const value = localStorage.getItem(key);
+        const newValue = prompt(`Edit value for "${key}":`, value);
+        if (newValue !== null) {
+          localStorage.setItem(key, newValue);
+          refreshLocalStorage();
+          showStatus("success", `Updated "${key}" in localStorage`);
+        }
+      }
+
+      // sessionStorage functions
+      function addToSessionStorage() {
+        const key = document.getElementById("session-key").value.trim();
+        const value = document.getElementById("session-value").value.trim();
+
+        if (!key || !value) {
+          alert("Please enter both key and value");
+          return;
+        }
+
+        try {
+          sessionStorage.setItem(key, value);
+          document.getElementById("session-key").value = "";
+          document.getElementById("session-value").value = "";
+          refreshSessionStorage();
+          showStatus("success", "Data stored in sessionStorage!");
+        } catch (error) {
+          showStatus("error", "Error storing data: " + error.message);
+        }
+      }
+
+      function refreshSessionStorage() {
+        const display = document.getElementById("session-storage-display");
+        const items = [];
+
+        for (let i = 0; i < sessionStorage.length; i++) {
+          const key = sessionStorage.key(i);
+          const value = sessionStorage.getItem(key);
+          items.push({ key, value });
+        }
+
+        if (items.length === 0) {
+          display.innerHTML = '<div class="empty">No data stored yet...</div>';
+        } else {
+          display.innerHTML = items
+            .map(
+              (item) => `
+            <div class="storage-item">
+              <div class="key">${escapeHtml(item.key)}</div>
+              <div class="value">${escapeHtml(item.value)}</div>
+              <div class="actions">
+                <button onclick="editSessionItem('${escapeHtml(
+                  item.key
+                )}')">Edit</button>
+                <button onclick="removeSessionItem('${escapeHtml(
+                  item.key
+                )}')">Delete</button>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        }
+      }
+
+      function clearSessionStorage() {
+        if (
+          confirm("Are you sure you want to clear all sessionStorage data?")
+        ) {
+          sessionStorage.clear();
+          refreshSessionStorage();
+          showStatus("success", "sessionStorage cleared!");
+        }
+      }
+
+      function removeSessionItem(key) {
+        sessionStorage.removeItem(key);
+        refreshSessionStorage();
+        showStatus("success", `Removed "${key}" from sessionStorage`);
+      }
+
+      function editSessionItem(key) {
+        const value = sessionStorage.getItem(key);
+        const newValue = prompt(`Edit value for "${key}":`, value);
+        if (newValue !== null) {
+          sessionStorage.setItem(key, newValue);
+          refreshSessionStorage();
+          showStatus("success", `Updated "${key}" in sessionStorage`);
+        }
+      }
+
+      // Theme preference example
+      function setTheme(theme) {
+        localStorage.setItem("theme-preference", theme);
+        document.getElementById(
+          "current-theme"
+        ).textContent = `Current: ${theme}`;
+        document.getElementById("current-theme").className =
+          "status-indicator status-success";
+        showStatus("success", `Theme set to ${theme}`);
+      }
+
+      function loadThemePreference() {
+        const theme = localStorage.getItem("theme-preference") || "auto";
+        document.getElementById(
+          "current-theme"
+        ).textContent = `Current: ${theme}`;
+      }
+
+      // Shopping cart example
+      function addToCart(item, price) {
+        try {
+          const cart = JSON.parse(
+            localStorage.getItem("shopping-cart") || "[]"
+          );
+          const existingItem = cart.find((cartItem) => cartItem.name === item);
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cart.push({ name: item, price: price, quantity: 1 });
+          }
+
+          localStorage.setItem("shopping-cart", JSON.stringify(cart));
+          updateCartStatus();
+          showStatus("success", `Added ${item} to cart`);
+        } catch (error) {
+          showStatus("error", "Error adding to cart: " + error.message);
+        }
+      }
+
+      function viewCart() {
+        try {
+          const cart = JSON.parse(
+            localStorage.getItem("shopping-cart") || "[]"
+          );
+          if (cart.length === 0) {
+            alert("Your cart is empty");
+            return;
+          }
+
+          const cartDetails = cart
+            .map((item) => `${item.name} - ${item.price} x ${item.quantity}`)
+            .join("\n");
+
+          const total = cart.reduce(
+            (sum, item) => sum + item.price * item.quantity,
+            0
+          );
+          alert(`Shopping Cart:\n\n${cartDetails}\n\nTotal: ${total}`);
+        } catch (error) {
+          showStatus("error", "Error viewing cart: " + error.message);
+        }
+      }
+
+      function clearCart() {
+        localStorage.removeItem("shopping-cart");
+        updateCartStatus();
+        showStatus("success", "Cart cleared");
+      }
+
+      function updateCartStatus() {
+        try {
+          const cart = JSON.parse(
+            localStorage.getItem("shopping-cart") || "[]"
+          );
+          const itemCount = cart.reduce(
+            (count, item) => count + item.quantity,
+            0
+          );
+          document.getElementById(
+            "cart-status"
+          ).textContent = `Cart: ${itemCount} items`;
+          document.getElementById("cart-status").className =
+            itemCount > 0
+              ? "status-indicator status-success"
+              : "status-indicator status-info";
+        } catch (error) {
+          document.getElementById("cart-status").textContent = "Cart: Error";
+          document.getElementById("cart-status").className =
+            "status-indicator status-error";
+        }
+      }
+
+      function loadCartStatus() {
+        updateCartStatus();
+      }
+
+      // Auto-save form example
+      function autoSaveForm() {
+        const input = document.getElementById("auto-save-input");
+        const value = input.value;
+
+        if (value.trim()) {
+          sessionStorage.setItem("auto-save-form", value);
+          document.getElementById("auto-save-status").textContent =
+            "Auto-saved";
+          document.getElementById("auto-save-status").className =
+            "status-indicator status-success";
+        } else {
+          sessionStorage.removeItem("auto-save-form");
+          document.getElementById("auto-save-status").textContent =
+            "Auto-save ready";
+          document.getElementById("auto-save-status").className =
+            "status-indicator status-info";
+        }
+      }
+
+      function loadAutoSaveData() {
+        const savedData = sessionStorage.getItem("auto-save-form");
+        if (savedData) {
+          document.getElementById("auto-save-input").value = savedData;
+          document.getElementById("auto-save-status").textContent =
+            "Restored from session";
+          document.getElementById("auto-save-status").className =
+            "status-indicator status-success";
+        }
+      }
+
+      // Analytics tracking example
+      function trackAction(action) {
+        try {
+          const analytics = JSON.parse(
+            sessionStorage.getItem("user-analytics") || "[]"
+          );
+          analytics.push({
+            action: action,
+            timestamp: new Date().toISOString(),
+            page: "storage-demo",
+          });
+
+          sessionStorage.setItem("user-analytics", JSON.stringify(analytics));
+          updateAnalyticsStatus();
+          showStatus("success", `Tracked ${action} action`);
+        } catch (error) {
+          showStatus("error", "Error tracking action: " + error.message);
+        }
+      }
+
+      function viewAnalytics() {
+        try {
+          const analytics = JSON.parse(
+            sessionStorage.getItem("user-analytics") || "[]"
+          );
+          if (analytics.length === 0) {
+            alert("No analytics data for this session");
+            return;
+          }
+
+          const summary = analytics.reduce((acc, event) => {
+            acc[event.action] = (acc[event.action] || 0) + 1;
+            return acc;
+          }, {});
+
+          const summaryText = Object.entries(summary)
+            .map(([action, count]) => `${action}: ${count}`)
+            .join("\n");
+
+          alert(
+            `Session Analytics:\n\n${summaryText}\n\nTotal Actions: ${analytics.length}`
+          );
+        } catch (error) {
+          showStatus("error", "Error viewing analytics: " + error.message);
+        }
+      }
+
+      function clearAnalytics() {
+        sessionStorage.removeItem("user-analytics");
+        updateAnalyticsStatus();
+        showStatus("success", "Analytics data cleared");
+      }
+
+      function updateAnalyticsStatus() {
+        try {
+          const analytics = JSON.parse(
+            sessionStorage.getItem("user-analytics") || "[]"
+          );
+          document.getElementById(
+            "analytics-status"
+          ).textContent = `Session: ${analytics.length} actions`;
+          document.getElementById("analytics-status").className =
+            analytics.length > 0
+              ? "status-indicator status-success"
+              : "status-indicator status-info";
+        } catch (error) {
+          document.getElementById("analytics-status").textContent =
+            "Session: Error";
+          document.getElementById("analytics-status").className =
+            "status-indicator status-error";
+        }
+      }
+
+      function loadAnalyticsStatus() {
+        updateAnalyticsStatus();
+      }
+
+      // Utility functions
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function showStatus(type, message) {
+        // Create temporary status notification
+        const notification = document.createElement("div");
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          padding: 1rem 1.5rem;
+          border-radius: 0.5rem;
+          color: white;
+          font-weight: 500;
+          z-index: 1000;
+          animation: slideIn 0.3s ease;
+          max-width: 300px;
+        `;
+
+        if (type === "success") {
+          notification.style.background = "#059669";
+        } else if (type === "error") {
+          notification.style.background = "#dc2626";
+        } else {
+          notification.style.background = "#0369a1";
+        }
+
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        // Add slide-in animation
+        const style = document.createElement("style");
+        style.textContent = `
+          @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+          }
+        `;
+        document.head.appendChild(style);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+          notification.style.animation = "slideIn 0.3s ease reverse";
+          setTimeout(() => {
+            document.body.removeChild(notification);
+            document.head.removeChild(style);
+          }, 300);
+        }, 3000);
+      }
+
+      // Storage event listener (for cross-tab synchronization)
+      window.addEventListener("storage", function (e) {
+        if (e.storageArea === localStorage) {
+          refreshLocalStorage();
+          if (e.key === "shopping-cart") {
+            updateCartStatus();
+          }
+          if (e.key === "theme-preference") {
+            loadThemePreference();
+          }
+          showStatus("info", "localStorage updated from another tab");
+        }
+      });
+
+      // Add some interactive hover effects
+      const sections = document.querySelectorAll("section");
+      sections.forEach((section) => {
+        section.addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-2px)";
+        });
+
+        section.addEventListener("mouseleave", function () {
+          this.style.transform = "translateY(0)";
+        });
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", function (e) {
+        // Ctrl/Cmd + S to save local storage demo
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+          e.preventDefault();
+          const localKey = document.getElementById("local-key").value.trim();
+          const localValue = document
+            .getElementById("local-value")
+            .value.trim();
+          if (localKey && localValue) {
+            addToLocalStorage();
+          }
+        }
+
+        // Ctrl/Cmd + Shift + S to save session storage demo
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "S") {
+          e.preventDefault();
+          const sessionKey = document
+            .getElementById("session-key")
+            .value.trim();
+          const sessionValue = document
+            .getElementById("session-value")
+            .value.trim();
+          if (sessionKey && sessionValue) {
+            addToSessionStorage();
+          }
+        }
+      });
+
+      // Add storage usage monitoring
+      function getStorageUsage() {
+        try {
+          const localStorageSize = JSON.stringify(localStorage).length;
+          const sessionStorageSize = JSON.stringify(sessionStorage).length;
+
+          return {
+            localStorage: `${(localStorageSize / 1024).toFixed(2)} KB`,
+            sessionStorage: `${(sessionStorageSize / 1024).toFixed(2)} KB`,
+          };
+        } catch (error) {
+          return {
+            localStorage: "Error",
+            sessionStorage: "Error",
+          };
+        }
+      }
+
+      // Display storage usage every 5 seconds (for demo purposes)
+      setInterval(() => {
+        const usage = getStorageUsage();
+        console.log("Storage Usage:", usage);
+      }, 5000);
+    </script>
+  </body>
+</html>

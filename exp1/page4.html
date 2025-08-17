@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailwind CSS Playground</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              "fade-in": "fadeIn 0.5s ease-in-out",
+              "slide-up": "slideUp 0.3s ease-out",
+              "bounce-gentle": "bounceGentle 2s infinite",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0" },
+                "100%": { opacity: "1" },
+              },
+              slideUp: {
+                "0%": { transform: "translateY(20px)", opacity: "0" },
+                "100%": { transform: "translateY(0)", opacity: "1" },
+              },
+              bounceGentle: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-purple-50 to-indigo-100 min-h-screen font-sans"
+  >
+    <!-- Header -->
+    <header
+      class="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 shadow-sm"
+    >
+      <div class="max-w-6xl mx-auto px-4 py-4">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <div class="text-2xl font-bold text-purple-600">TailwindMaster</div>
+          <nav>
+            <ul class="flex flex-wrap justify-center gap-4 md:gap-8">
+              <li>
+                <a
+                  href="page1.html"
+                  class="text-gray-600 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-200"
+                  >Semantic HTML</a
+                >
+              </li>
+              <li>
+                <a
+                  href="page2.html"
+                  class="text-gray-600 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-200"
+                  >Flexbox</a
+                >
+              </li>
+              <li>
+                <a
+                  href="../../geolocation-app/index.html"
+                  class="text-gray-600 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-200"
+                  >Geolocation</a
+                >
+              </li>
+              <li>
+                <a
+                  href="page3.html"
+                  class="text-gray-600 hover:text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-lg transition-all duration-200"
+                  >Storage</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-purple-600 bg-purple-50 px-3 py-2 rounded-lg"
+                  >Tailwind</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <!-- Hero Section -->
+      <div class="text-center py-16 mb-12 animate-fade-in">
+        <h1
+          class="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
+        >
+          Tailwind CSS Playground
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          Discover the power of utility-first CSS with Tailwind. Build
+          beautiful, responsive designs without writing custom CSS!
+        </p>
+      </div>
+
+      <!-- Introduction Section -->
+      <section
+        class="bg-white rounded-xl p-8 mb-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 animate-slide-up"
+      >
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">
+          What is Tailwind CSS?
+        </h2>
+        <p class="text-gray-700 mb-6 leading-relaxed">
+          Tailwind CSS is like having a
+          <span
+            class="bg-yellow-100 px-2 py-1 rounded text-yellow-800 font-medium"
+            >smart assistant</span
+          >
+          that gives you exactly the right styling tools when you need them.
+          Instead of writing custom CSS, you combine small utility classes like
+          <code
+            class="bg-gray-100 px-2 py-1 rounded text-purple-600 font-mono text-sm"
+            >bg-blue-500</code
+          >
+          and
+          <code
+            class="bg-gray-100 px-2 py-1 rounded text-purple-600 font-mono text-sm"
+            >text-white</code
+          >
+          to build your design.
+        </p>
+
+        <!-- Comparison Cards -->
+        <div class="grid md:grid-cols-2 gap-6 mt-8">
+          <div class="bg-red-50 border-l-4 border-red-400 p-6 rounded-r-lg">
+            <h3
+              class="text-xl font-semibold text-red-800 mb-3 flex items-center"
+            >
+              <span class="mr-2">❌</span> Traditional CSS
+            </h3>
+            <div
+              class="bg-gray-900 text-green-400 p-4 rounded font-mono text-sm mb-4"
+            >
+              <div>.custom-button {</div>
+              <div class="ml-4">background-color: #3b82f6;</div>
+              <div class="ml-4">color: white;</div>
+              <div class="ml-4">padding: 0.5rem 1rem;</div>
+              <div class="ml-4">border-radius: 0.375rem;</div>
+              <div>}</div>
+            </div>
+            <p class="text-red-700 text-sm">
+              Requires context switching between HTML and CSS files
+            </p>
+          </div>
+
+          <div class="bg-green-50 border-l-4 border-green-400 p-6 rounded-r-lg">
+            <h3
+              class="text-xl font-semibold text-green-800 mb-3 flex items-center"
+            >
+              <span class="mr-2">✅</span> Tailwind CSS
+            </h3>
+            <div
+              class="bg-gray-900 text-blue-400 p-4 rounded font-mono text-sm mb-4"
+            >
+              <div>&lt;button class="bg-blue-500 text-white</div>
+              <div class="ml-8">px-4 py-2 rounded"&gt;</div>
+              <div class="ml-2">Click me</div>
+              <div>&lt;/button&gt;</div>
+            </div>
+            <p class="text-green-700 text-sm">
+              Everything in one place, highly readable and maintainable
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Class Builder -->
+      <section
+        class="bg-white rounded-xl p-8 mb-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+      >
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">
+          🎮 Interactive Class Builder
+        </h2>
+        <p class="text-gray-700 mb-6">
+          Build your own component by selecting different utility classes. Watch
+          the preview update in real-time!
+        </p>
+
+        <!-- Controls -->
+        <div
+          class="grid md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8 p-6 bg-gray-50 rounded-lg"
+        >
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Background</label
+            >
+            <select
+              id="bg-color"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            >
+              <option value="bg-blue-500">Blue</option>
+              <option value="bg-purple-500">Purple</option>
+              <option value="bg-green-500">Green</option>
+              <option value="bg-red-500">Red</option>
+              <option value="bg-yellow-500">Yellow</option>
+              <option value="bg-gray-800">Dark Gray</option>
+              <option value="bg-gradient-to-r from-purple-500 to-blue-500">
+                Gradient
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Text Color</label
+            >
+            <select
+              id="text-color"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            >
+              <option value="text-white">White</option>
+              <option value="text-black">Black</option>
+              <option value="text-gray-600">Gray</option>
+              <option value="text-blue-600">Blue</option>
+              <option value="text-purple-600">Purple</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Padding</label
+            >
+            <select
+              id="padding"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            >
+              <option value="p-2">Small (p-2)</option>
+              <option value="p-4" selected>Medium (p-4)</option>
+              <option value="p-6">Large (p-6)</option>
+              <option value="p-8">X-Large (p-8)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Border Radius</label
+            >
+            <select
+              id="rounded"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            >
+              <option value="">None</option>
+              <option value="rounded-sm">Small</option>
+              <option value="rounded" selected>Medium</option>
+              <option value="rounded-lg">Large</option>
+              <option value="rounded-full">Full</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Shadow</label
+            >
+            <select
+              id="shadow"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            >
+              <option value="">None</option>
+              <option value="shadow-sm">Small</option>
+              <option value="shadow" selected>Medium</option>
+              <option value="shadow-lg">Large</option>
+              <option value="shadow-xl">X-Large</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Font Weight</label
+            >
+            <select
+              id="font-weight"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            >
+              <option value="font-normal">Normal</option>
+              <option value="font-medium">Medium</option>
+              <option value="font-semibold" selected>Semibold</option>
+              <option value="font-bold">Bold</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Transition</label
+            >
+            <select
+              id="transition"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            >
+              <option value="">None</option>
+              <option value="transition-all duration-200" selected>Fast</option>
+              <option value="transition-all duration-300">Medium</option>
+              <option value="transition-all duration-500">Slow</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >Hover Effect</label
+            >
+            <select
+              id="hover"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            >
+              <option value="">None</option>
+              <option value="hover:scale-105">Scale Up</option>
+              <option value="hover:bg-opacity-80">Fade</option>
+              <option value="hover:-translate-y-1">Lift Up</option>
+              <option value="hover:shadow-xl" selected>Shadow</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="bg-gray-100 p-8 rounded-lg mb-6">
+          <h4 class="text-lg font-semibold text-gray-700 mb-4">Preview:</h4>
+          <div class="flex justify-center">
+            <button
+              id="preview-element"
+              class="bg-blue-500 text-white p-4 rounded shadow font-semibold transition-all duration-200 hover:shadow-xl cursor-pointer"
+            >
+              Custom Button
+            </button>
+          </div>
+        </div>
+
+        <!-- Generated Code -->
+        <div class="bg-gray-900 text-green-400 p-4 rounded-lg">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-semibold">Generated Classes:</span>
+            <button
+              onclick="copyToClipboard()"
+              class="bg-purple-600 text-white px-3 py-1 rounded text-sm hover:bg-purple-700 transition-colors"
+            >
+              Copy
+            </button>
+          </div>
+          <code id="generated-code" class="font-mono text-sm"></code>
+        </div>
+      </section>
+
+      <!-- Responsive Design Demo -->
+      <section
+        class="bg-white rounded-xl p-8 mb-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+      >
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">
+          📱 Responsive Design Magic
+        </h2>
+        <p class="text-gray-700 mb-6">
+          Tailwind makes responsive design intuitive with breakpoint prefixes.
+          Resize your browser to see these examples in action!
+        </p>
+
+        <!-- Responsive Grid Example -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">
+            Responsive Grid Layout
+          </h3>
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-4"
+          >
+            <div
+              class="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-6 rounded-lg text-center"
+            >
+              <div class="text-2xl mb-2">📱</div>
+              <div class="font-semibold">Mobile First</div>
+              <div class="text-sm opacity-90">1 column</div>
+            </div>
+            <div
+              class="bg-gradient-to-br from-green-400 to-green-600 text-white p-6 rounded-lg text-center"
+            >
+              <div class="text-2xl mb-2">💻</div>
+              <div class="font-semibold">Tablet</div>
+              <div class="text-sm opacity-90">2 columns</div>
+            </div>
+            <div
+              class="bg-gradient-to-br from-purple-400 to-purple-600 text-white p-6 rounded-lg text-center"
+            >
+              <div class="text-2xl mb-2">🖥️</div>
+              <div class="font-semibold">Desktop</div>
+              <div class="text-sm opacity-90">3 columns</div>
+            </div>
+            <div
+              class="bg-gradient-to-br from-red-400 to-red-600 text-white p-6 rounded-lg text-center"
+            >
+              <div class="text-2xl mb-2">🖥️</div>
+              <div class="font-semibold">Large</div>
+              <div class="text-sm opacity-90">4 columns</div>
+            </div>
+          </div>
+          <div class="bg-gray-100 p-4 rounded">
+            <code class="text-sm text-purple-600 font-mono">
+              grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+            </code>
+          </div>
+        </div>
+
+        <!-- Responsive Text Example -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">
+            Responsive Typography
+          </h3>
+          <div
+            class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-8 rounded-lg text-center mb-4"
+          >
+            <h1 class="text-2xl md:text-4xl lg:text-6xl font-bold mb-2">
+              Responsive Heading
+            </h1>
+            <p class="text-sm md:text-base lg:text-lg opacity-90">
+              This text scales beautifully across all devices
+            </p>
+          </div>
+          <div class="bg-gray-100 p-4 rounded">
+            <code class="text-sm text-purple-600 font-mono">
+              text-2xl md:text-4xl lg:text-6xl
+            </code>
+          </div>
+        </div>
+      </section>
+
+      <!-- Component Gallery -->
+      <section
+        class="bg-white rounded-xl p-8 mb-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+      >
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">
+          🎨 Component Gallery
+        </h2>
+        <p class="text-gray-700 mb-8">
+          Explore these beautiful components built entirely with Tailwind
+          utility classes:
+        </p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Card Component -->
+          <div class="group">
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">
+              Card Component
+            </h4>
+            <div
+              class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
+            >
+              <div
+                class="h-32 bg-gradient-to-r from-cyan-400 to-blue-500"
+              ></div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-2">
+                  Beautiful Card
+                </h3>
+                <p class="text-gray-600 text-sm mb-4">
+                  This card component showcases Tailwind's utility classes in
+                  action.
+                </p>
+                <button
+                  class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Learn More
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Card -->
+          <div class="group">
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">
+              Profile Card
+            </h4>
+            <div
+              class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 p-6 text-center"
+            >
+              <div
+                class="w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold"
+              >
+                JD
+              </div>
+              <h3 class="text-xl font-semibold text-gray-900 mb-1">John Doe</h3>
+              <p class="text-gray-600 text-sm mb-4">Frontend Developer</p>
+              <div class="flex justify-center space-x-2">
+                <div
+                  class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm"
+                >
+                  f
+                </div>
+                <div
+                  class="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center text-white text-sm"
+                >
+                  t
+                </div>
+                <div
+                  class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm"
+                >
+                  in
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alert Component -->
+          <div class="group">
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">
+              Alert Messages
+            </h4>
+            <div class="space-y-3">
+              <div
+                class="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center"
+              >
+                <div class="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
+                <span class="text-green-800 text-sm font-medium"
+                  >Success message</span
+                >
+              </div>
+              <div
+                class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-center"
+              >
+                <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
+                <span class="text-yellow-800 text-sm font-medium"
+                  >Warning message</span
+                >
+              </div>
+              <div
+                class="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center"
+              >
+                <div class="w-4 h-4 bg-red-500 rounded-full mr-3"></div>
+                <span class="text-red-800 text-sm font-medium"
+                  >Error message</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Button Variations -->
+          <div class="group">
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">
+              Button Variations
+            </h4>
+            <div class="space-y-3">
+              <button
+                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              >
+                Primary Button
+              </button>
+              <button
+                class="w-full border border-purple-600 text-purple-600 hover:bg-purple-50 font-medium py-2 px-4 rounded-lg transition-colors"
+              >
+                Secondary Button
+              </button>
+              <button
+                class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-all transform hover:scale-105"
+              >
+                Gradient Button
+              </button>
+            </div>
+          </div>
+
+          <!-- Form Component -->
+          <div class="group">
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">
+              Form Elements
+            </h4>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="your@email.com"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Message</label
+                >
+                <textarea
+                  rows="3"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  placeholder="Your message..."
+                ></textarea>
+              </div>
+              <button
+                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              >
+                Send Message
+              </button>
+            </div>
+          </div>
+
+          <!-- Stats Component -->
+          <div class="group">
+            <h4 class="text-lg font-semibold text-gray-800 mb-3">Statistics</h4>
+            <div
+              class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg p-6"
+            >
+              <div class="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <div class="text-2xl font-bold">1.2K</div>
+                  <div class="text-sm opacity-90">Users</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold">98%</div>
+                  <div class="text-sm opacity-90">Uptime</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold">500+</div>
+                  <div class="text-sm opacity-90">Projects</div>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold">24/7</div>
+                  <div class="text-sm opacity-90">Support</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Utility Classes Reference -->
+      <section
+        class="bg-white rounded-xl p-8 mb-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+      >
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">
+          📚 Essential Utility Classes
+        </h2>
+        <p class="text-gray-700 mb-8">
+          Master these commonly used utility classes to build beautiful
+          interfaces quickly:
+        </p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Spacing -->
+          <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+            <h4
+              class="text-lg font-semibold text-blue-800 mb-4 flex items-center"
+            >
+              📏 Spacing
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div>
+                <code class="bg-blue-100 px-2 py-1 rounded text-blue-800"
+                  >p-4</code
+                >
+                = padding: 1rem
+              </div>
+              <div>
+                <code class="bg-blue-100 px-2 py-1 rounded text-blue-800"
+                  >m-2</code
+                >
+                = margin: 0.5rem
+              </div>
+              <div>
+                <code class="bg-blue-100 px-2 py-1 rounded text-blue-800"
+                  >px-6</code
+                >
+                = padding left/right
+              </div>
+              <div>
+                <code class="bg-blue-100 px-2 py-1 rounded text-blue-800"
+                  >mt-8</code
+                >
+                = margin top
+              </div>
+              <div>
+                <code class="bg-blue-100 px-2 py-1 rounded text-blue-800"
+                  >space-y-4</code
+                >
+                = vertical spacing
+              </div>
+            </div>
+          </div>
+
+          <!-- Colors -->
+          <div class="bg-purple-50 p-6 rounded-lg border border-purple-200">
+            <h4
+              class="text-lg font-semibold text-purple-800 mb-4 flex items-center"
+            >
+              🎨 Colors
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div>
+                <code class="bg-purple-100 px-2 py-1 rounded text-purple-800"
+                  >bg-blue-500</code
+                >
+                = background
+              </div>
+              <div>
+                <code class="bg-purple-100 px-2 py-1 rounded text-purple-800"
+                  >text-white</code
+                >
+                = text color
+              </div>
+              <div>
+                <code class="bg-purple-100 px-2 py-1 rounded text-purple-800"
+                  >border-gray-300</code
+                >
+                = border color
+              </div>
+              <div>
+                <code class="bg-purple-100 px-2 py-1 rounded text-purple-800"
+                  >ring-purple-500</code
+                >
+                = focus ring
+              </div>
+              <div>
+                <code class="bg-purple-100 px-2 py-1 rounded text-purple-800"
+                  >opacity-50</code
+                >
+                = transparency
+              </div>
+            </div>
+          </div>
+
+          <!-- Layout -->
+          <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+            <h4
+              class="text-lg font-semibold text-green-800 mb-4 flex items-center"
+            >
+              📐 Layout
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div>
+                <code class="bg-green-100 px-2 py-1 rounded text-green-800"
+                  >flex</code
+                >
+                = display: flex
+              </div>
+              <div>
+                <code class="bg-green-100 px-2 py-1 rounded text-green-800"
+                  >grid</code
+                >
+                = display: grid
+              </div>
+              <div>
+                <code class="bg-green-100 px-2 py-1 rounded text-green-800"
+                  >w-full</code
+                >
+                = width: 100%
+              </div>
+              <div>
+                <code class="bg-green-100 px-2 py-1 rounded text-green-800"
+                  >h-64</code
+                >
+                = height: 16rem
+              </div>
+              <div>
+                <code class="bg-green-100 px-2 py-1 rounded text-green-800"
+                  >justify-center</code
+                >
+                = center items
+              </div>
+            </div>
+          </div>
+
+          <!-- Typography -->
+          <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-200">
+            <h4
+              class="text-lg font-semibold text-yellow-800 mb-4 flex items-center"
+            >
+              ✍️ Typography
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div>
+                <code class="bg-yellow-100 px-2 py-1 rounded text-yellow-800"
+                  >text-xl</code
+                >
+                = font size
+              </div>
+              <div>
+                <code class="bg-yellow-100 px-2 py-1 rounded text-yellow-800"
+                  >font-bold</code
+                >
+                = font weight
+              </div>
+              <div>
+                <code class="bg-yellow-100 px-2 py-1 rounded text-yellow-800"
+                  >text-center</code
+                >
+                = text align
+              </div>
+              <div>
+                <code class="bg-yellow-100 px-2 py-1 rounded text-yellow-800"
+                  >leading-relaxed</code
+                >
+                = line height
+              </div>
+              <div>
+                <code class="bg-yellow-100 px-2 py-1 rounded text-yellow-800"
+                  >tracking-wide</code
+                >
+                = letter spacing
+              </div>
+            </div>
+          </div>
+
+          <!-- Effects -->
+          <div class="bg-red-50 p-6 rounded-lg border border-red-200">
+            <h4
+              class="text-lg font-semibold text-red-800 mb-4 flex items-center"
+            >
+              ✨ Effects
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div>
+                <code class="bg-red-100 px-2 py-1 rounded text-red-800"
+                  >shadow-lg</code
+                >
+                = box shadow
+              </div>
+              <div>
+                <code class="bg-red-100 px-2 py-1 rounded text-red-800"
+                  >rounded-lg</code
+                >
+                = border radius
+              </div>
+              <div>
+                <code class="bg-red-100 px-2 py-1 rounded text-red-800"
+                  >border</code
+                >
+                = border width
+              </div>
+              <div>
+                <code class="bg-red-100 px-2 py-1 rounded text-red-800"
+                  >backdrop-blur</code
+                >
+                = blur effect
+              </div>
+              <div>
+                <code class="bg-red-100 px-2 py-1 rounded text-red-800"
+                  >transform</code
+                >
+                = transformations
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactions -->
+          <div class="bg-indigo-50 p-6 rounded-lg border border-indigo-200">
+            <h4
+              class="text-lg font-semibold text-indigo-800 mb-4 flex items-center"
+            >
+              🖱️ Interactions
+            </h4>
+            <div class="space-y-2 text-sm">
+              <div>
+                <code class="bg-indigo-100 px-2 py-1 rounded text-indigo-800"
+                  >hover:bg-blue-600</code
+                >
+                = hover state
+              </div>
+              <div>
+                <code class="bg-indigo-100 px-2 py-1 rounded text-indigo-800"
+                  >focus:ring-2</code
+                >
+                = focus state
+              </div>
+              <div>
+                <code class="bg-indigo-100 px-2 py-1 rounded text-indigo-800"
+                  >transition-all</code
+                >
+                = smooth transitions
+              </div>
+              <div>
+                <code class="bg-indigo-100 px-2 py-1 rounded text-indigo-800"
+                  >cursor-pointer</code
+                >
+                = cursor style
+              </div>
+              <div>
+                <code class="bg-indigo-100 px-2 py-1 rounded text-indigo-800"
+                  >select-none</code
+                >
+                = text selection
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Examples -->
+      <section
+        class="bg-white rounded-xl p-8 mb-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+      >
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">
+          🎯 Try These Interactive Examples
+        </h2>
+        <p class="text-gray-700 mb-8">
+          Click the buttons to see different Tailwind utilities in action:
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Animation Demo -->
+          <div class="border border-gray-200 rounded-lg p-6">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">
+              Animations & Transforms
+            </h4>
+            <div class="bg-gray-100 p-8 rounded-lg mb-4 flex justify-center">
+              <div
+                id="animation-demo"
+                class="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg transition-all duration-300 cursor-pointer flex items-center justify-center text-white font-bold"
+              >
+                🚀
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                onclick="animateElement('scale-110')"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm transition-colors"
+              >
+                Scale
+              </button>
+              <button
+                onclick="animateElement('rotate-45')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded text-sm transition-colors"
+              >
+                Rotate
+              </button>
+              <button
+                onclick="animateElement('-translate-y-4')"
+                class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-2 rounded text-sm transition-colors"
+              >
+                Move Up
+              </button>
+              <button
+                onclick="animateElement('skew-x-12')"
+                class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm transition-colors"
+              >
+                Skew
+              </button>
+            </div>
+            <button
+              onclick="resetAnimation()"
+              class="w-full mt-3 bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors"
+            >
+              Reset
+            </button>
+          </div>
+
+          <!-- Color Demo -->
+          <div class="border border-gray-200 rounded-lg p-6">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">
+              Color Themes
+            </h4>
+            <div class="bg-gray-100 p-8 rounded-lg mb-4 flex justify-center">
+              <div
+                id="color-demo"
+                class="px-6 py-3 rounded-lg font-semibold text-white bg-blue-500 transition-all duration-300"
+              >
+                Sample Element
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                onclick="changeTheme('bg-blue-500', 'text-white')"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded text-sm transition-colors"
+              >
+                Blue
+              </button>
+              <button
+                onclick="changeTheme('bg-green-500', 'text-white')"
+                class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded text-sm transition-colors"
+              >
+                Green
+              </button>
+              <button
+                onclick="changeTheme('bg-purple-500', 'text-white')"
+                class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-2 rounded text-sm transition-colors"
+              >
+                Purple
+              </button>
+              <button
+                onclick="changeTheme('bg-gradient-to-r from-pink-500 to-purple-600', 'text-white')"
+                class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-3 py-2 rounded text-sm transition-colors"
+              >
+                Gradient
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Best Practices -->
+      <section
+        class="bg-white rounded-xl p-8 mb-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+      >
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">
+          💡 Best Practices & Tips
+        </h2>
+        <p class="text-gray-700 mb-8">
+          Follow these guidelines to write clean, maintainable Tailwind CSS:
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Do's -->
+          <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+            <h4
+              class="text-xl font-semibold text-green-800 mb-4 flex items-center"
+            >
+              <span class="mr-2">✅</span> Do's
+            </h4>
+            <ul class="space-y-3 text-green-700">
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Use component extraction for repeated patterns</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Embrace the utility-first mindset</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Use responsive prefixes (sm:, md:, lg:, xl:)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Leverage hover: and focus: states</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Use spacing scale consistently (4, 8, 12, 16...)</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Group related classes logically</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Don'ts -->
+          <div class="bg-red-50 border border-red-200 rounded-lg p-6">
+            <h4
+              class="text-xl font-semibold text-red-800 mb-4 flex items-center"
+            >
+              <span class="mr-2">❌</span> Don'ts
+            </h4>
+            <ul class="space-y-3 text-red-700">
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Don't use arbitrary values unless necessary</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Avoid mixing custom CSS with utilities</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Don't fight the design system</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Avoid overly long class lists</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Don't use important (!important) modifiers</span>
+              </li>
+              <li class="flex items-start">
+                <span class="mr-2 mt-1">•</span>
+                <span>Avoid inconsistent spacing patterns</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Code Example -->
+        <div class="mt-8 bg-gray-900 text-gray-100 p-6 rounded-lg">
+          <h4 class="text-lg font-semibold mb-4 text-blue-300">
+            Component Extraction Example:
+          </h4>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <p class="text-sm text-gray-400 mb-2">
+                ❌ Repeated utility classes:
+              </p>
+              <pre
+                class="text-xs bg-gray-800 p-3 rounded overflow-x-auto"
+              ><code>&lt;button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors"&gt;
+  Button 1
+&lt;/button&gt;
+
+&lt;button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors"&gt;
+  Button 2
+&lt;/button&gt;</code></pre>
+            </div>
+            <div>
+              <p class="text-sm text-gray-400 mb-2">✅ Extracted component:</p>
+              <pre
+                class="text-xs bg-gray-800 p-3 rounded overflow-x-auto"
+              ><code>.btn-primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors;
+}
+
+&lt;button class="btn-primary"&gt;Button 1&lt;/button&gt;
+&lt;button class="btn-primary"&gt;Button 2&lt;/button&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cheat Sheet -->
+      <section
+        class="bg-white rounded-xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+      >
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">
+          📋 Quick Reference Cheat Sheet
+        </h2>
+        <p class="text-gray-700 mb-8">
+          Bookmark these commonly used patterns for quick reference:
+        </p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Centering -->
+          <div
+            class="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4"
+          >
+            <h5 class="font-semibold text-blue-800 mb-3">🎯 Centering</h5>
+            <div class="space-y-2 text-sm">
+              <div class="bg-white p-2 rounded border">
+                <code class="text-blue-600"
+                  >flex items-center justify-center</code
+                >
+                <div class="text-xs text-gray-600 mt-1">
+                  Perfect center (flex)
+                </div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-blue-600">mx-auto</code>
+                <div class="text-xs text-gray-600 mt-1">Horizontal center</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-blue-600">text-center</code>
+                <div class="text-xs text-gray-600 mt-1">Text center</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Common Layouts -->
+          <div
+            class="bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg p-4"
+          >
+            <h5 class="font-semibold text-green-800 mb-3">📐 Layouts</h5>
+            <div class="space-y-2 text-sm">
+              <div class="bg-white p-2 rounded border">
+                <code class="text-green-600">grid grid-cols-3 gap-4</code>
+                <div class="text-xs text-gray-600 mt-1">3-column grid</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-green-600">flex flex-col space-y-4</code>
+                <div class="text-xs text-gray-600 mt-1">Vertical stack</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-green-600">flex justify-between</code>
+                <div class="text-xs text-gray-600 mt-1">Space between</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cards & Containers -->
+          <div
+            class="bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 rounded-lg p-4"
+          >
+            <h5 class="font-semibold text-purple-800 mb-3">📦 Cards</h5>
+            <div class="space-y-2 text-sm">
+              <div class="bg-white p-2 rounded border">
+                <code class="text-purple-600"
+                  >bg-white rounded-lg shadow-md p-6</code
+                >
+                <div class="text-xs text-gray-600 mt-1">Basic card</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-purple-600">border border-gray-200</code>
+                <div class="text-xs text-gray-600 mt-1">Border style</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-purple-600"
+                  >hover:shadow-lg transition-shadow</code
+                >
+                <div class="text-xs text-gray-600 mt-1">Hover effect</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div
+            class="bg-gradient-to-br from-red-50 to-pink-50 border border-red-200 rounded-lg p-4"
+          >
+            <h5 class="font-semibold text-red-800 mb-3">🔘 Buttons</h5>
+            <div class="space-y-2 text-sm">
+              <div class="bg-white p-2 rounded border">
+                <code class="text-red-600">bg-blue-500 hover:bg-blue-600</code>
+                <div class="text-xs text-gray-600 mt-1">Primary button</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-red-600"
+                  >border border-gray-300 hover:bg-gray-50</code
+                >
+                <div class="text-xs text-gray-600 mt-1">Secondary button</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-red-600">text-white px-4 py-2 rounded</code>
+                <div class="text-xs text-gray-600 mt-1">Button base</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forms -->
+          <div
+            class="bg-gradient-to-br from-yellow-50 to-amber-50 border border-yellow-200 rounded-lg p-4"
+          >
+            <h5 class="font-semibold text-yellow-800 mb-3">📝 Forms</h5>
+            <div class="space-y-2 text-sm">
+              <div class="bg-white p-2 rounded border">
+                <code class="text-yellow-600"
+                  >border border-gray-300 rounded-lg px-3 py-2</code
+                >
+                <div class="text-xs text-gray-600 mt-1">Input field</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-yellow-600"
+                  >focus:ring-2 focus:ring-blue-500</code
+                >
+                <div class="text-xs text-gray-600 mt-1">Focus state</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-yellow-600"
+                  >block text-sm font-medium text-gray-700</code
+                >
+                <div class="text-xs text-gray-600 mt-1">Label style</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Responsive -->
+          <div
+            class="bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-200 rounded-lg p-4"
+          >
+            <h5 class="font-semibold text-indigo-800 mb-3">📱 Responsive</h5>
+            <div class="space-y-2 text-sm">
+              <div class="bg-white p-2 rounded border">
+                <code class="text-indigo-600">hidden md:block</code>
+                <div class="text-xs text-gray-600 mt-1">Show on desktop</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-indigo-600"
+                  >text-sm md:text-base lg:text-lg</code
+                >
+                <div class="text-xs text-gray-600 mt-1">Responsive text</div>
+              </div>
+              <div class="bg-white p-2 rounded border">
+                <code class="text-indigo-600"
+                  >grid-cols-1 md:grid-cols-2 lg:grid-cols-3</code
+                >
+                <div class="text-xs text-gray-600 mt-1">Responsive grid</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center py-8 mt-16">
+      <div class="max-w-6xl mx-auto px-4">
+        <p class="text-gray-400 mb-2">
+          &copy; 2025 TailwindMaster Demo. Built entirely with Tailwind CSS
+          utility classes.
+        </p>
+        <p class="text-gray-500 text-sm">
+          Demonstrating the power of utility-first CSS framework design.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", function () {
+        updatePreview();
+
+        // Add event listeners to all controls
+        const controls = [
+          "bg-color",
+          "text-color",
+          "padding",
+          "rounded",
+          "shadow",
+          "font-weight",
+          "transition",
+          "hover",
+        ];
+        controls.forEach((id) => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.addEventListener("change", updatePreview);
+          }
+        });
+      });
+
+      // Update the interactive preview
+      function updatePreview() {
+        const preview = document.getElementById("preview-element");
+        const bgColor = document.getElementById("bg-color").value;
+        const textColor = document.getElementById("text-color").value;
+        const padding = document.getElementById("padding").value;
+        const rounded = document.getElementById("rounded").value;
+        const shadow = document.getElementById("shadow").value;
+        const fontWeight = document.getElementById("font-weight").value;
+        const transition = document.getElementById("transition").value;
+        const hover = document.getElementById("hover").value;
+
+        // Build class string
+        const classes = [
+          bgColor,
+          textColor,
+          padding,
+          rounded,
+          shadow,
+          fontWeight,
+          transition,
+          hover,
+          "cursor-pointer",
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        // Apply classes
+        preview.className = classes;
+
+        // Update code display
+        document.getElementById("generated-code").textContent = classes;
+      }
+
+      // Copy generated code to clipboard
+      function copyToClipboard() {
+        const code = document.getElementById("generated-code").textContent;
+        navigator.clipboard
+          .writeText(code)
+          .then(() => {
+            showToast("Classes copied to clipboard!", "success");
+          })
+          .catch((err) => {
+            console.error("Failed to copy: ", err);
+            showToast("Failed to copy classes", "error");
+          });
+      }
+
+      // Animation demo functions
+      function animateElement(transform) {
+        const element = document.getElementById("animation-demo");
+        element.className = element.className.replace(
+          /transform|scale-\d+|rotate-\d+|-?translate-[xy]-\d+|skew-[xy]-\d+/g,
+          ""
+        );
+        element.classList.add("transform", transform);
+      }
+
+      function resetAnimation() {
+        const element = document.getElementById("animation-demo");
+        element.className =
+          "w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-lg transition-all duration-300 cursor-pointer flex items-center justify-center text-white font-bold";
+      }
+
+      // Color theme demo functions
+      function changeTheme(bgClass, textClass) {
+        const element = document.getElementById("color-demo");
+        // Remove existing background and text classes
+        element.className = element.className.replace(
+          /bg-\S+|text-\S+|from-\S+|to-\S+/g,
+          ""
+        );
+        element.className = `px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${bgClass} ${textClass}`;
+      }
+
+      // Toast notification system
+      function showToast(message, type = "info") {
+        const toast = document.createElement("div");
+        toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white font-medium z-50 transform transition-all duration-300 translate-x-full`;
+
+        // Set color based on type
+        switch (type) {
+          case "success":
+            toast.classList.add("bg-green-500");
+            break;
+          case "error":
+            toast.classList.add("bg-red-500");
+            break;
+          default:
+            toast.classList.add("bg-blue-500");
+        }
+
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        // Animate in
+        setTimeout(() => toast.classList.remove("translate-x-full"), 100);
+
+        // Remove after delay
+        setTimeout(() => {
+          toast.classList.add("translate-x-full");
+          setTimeout(() => document.body.removeChild(toast), 300);
+        }, 3000);
+      }
+
+      // Add scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-slide-up");
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections
+      document.querySelectorAll("section").forEach((section) => {
+        observer.observe(section);
+      });
+
+      // Add hover effects to cards
+      document.querySelectorAll(".group").forEach((card) => {
+        card.addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-4px)";
+        });
+
+        card.addEventListener("mouseleave", function () {
+          this.style.transform = "translateY(0)";
+        });
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", function (e) {
+        // Ctrl/Cmd + K to copy current classes
+        if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+          e.preventDefault();
+          copyToClipboard();
+        }
+      });
+
+      // Add some visual feedback for interactive elements
+      document.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", function () {
+          this.style.transform = "scale(0.95)";
+          setTimeout(() => {
+            this.style.transform = "scale(1)";
+          }, 150);
+        });
+      });
+
+      // Auto-update theme based on time (optional easter egg)
+      function autoTheme() {
+        const hour = new Date().getHours();
+        const isDark = hour < 6 || hour > 20;
+
+        if (isDark && !document.body.classList.contains("dark-mode")) {
+          // Could implement dark mode toggle here
+          console.log("Dark mode would be appropriate now");
+        }
+      }
+
+      // Check theme every minute
+      setInterval(autoTheme, 60000);
+      autoTheme(); // Check on load
+    </script>
+  </body>
+</html>
